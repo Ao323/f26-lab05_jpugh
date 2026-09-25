@@ -35,10 +35,15 @@ export class ReservationManager {
   private readonly notificationLog: string[] = [];
   private nextBookingNumber = 1;
 
-  constructor(storage: StorageProvider = new InMemoryStorageProvider()) {
+  constructor(
+    storage: StorageProvider = new InMemoryStorageProvider(),
+    cache: QueryCache = new QueryCache(DEFAULT_CACHE_CONFIG),
+    notifier: NotificationChannel =
+      createNotificationChannel(DEFAULT_NOTIFIER_CONFIG),
+  ) {
     this.storage = storage;
-    this.notifier = createNotificationChannel(DEFAULT_NOTIFIER_CONFIG);
-    this.cache = new QueryCache(DEFAULT_CACHE_CONFIG);
+    this.notifier = notifier;
+    this.cache = cache;
   }
 
   registerRoom(room: Room): void {
